@@ -6,40 +6,67 @@ class Star extends Component {
         this.state ={
             star: {
                 name: '',
-                role: ''
+                role: '',
+                famousness: ''
             }
         }
     }
 
-    handleNameChange = (event)=>{
-        this.setState({
-            star: {
-                ...this.state.star,
-                name: event.target.value
-            }
-        })
+    // handleNameChange = (event)=>{
+    //     this.setState({
+    //         star: {
+    //             ...this.state.star,
+    //             name: event.target.value
+    //         }
+    //     })
+    // }
+
+    handleChangeFor = (propertyName)=>{
+        return (event)=>{
+            this.setState({
+                star:{
+                    ...this.state.star,
+                    [propertyName]: event.target.value
+                }
+            })
+        }
     }
 
-    handleRoleChange = (event)=>{
-        this.setState({
-            star:{
-                ...this.state.star,
-                role: event.target.value
-            }
-        })
-    }
+    // handleRoleChange = (event)=>{
+    //     this.setState({
+    //         star:{
+    //             ...this.state.star,
+    //             role: event.target.value
+    //         }
+    //     })
+    // }
 
     handleClick = (event)=>{
         console.log(this.state.star);
+        event.preventDefault();
+        this.clearInputs();
+    }
+
+    clearInputs = ()=>{
+        this.setState({
+            star:{
+                name: '',
+                role: '',
+                famousness: ''
+            }
+        })
     }
 
   render() {
     return (
         <div>
-            <input type="text" onChange={this.handleNameChange}/>
-            <input type="text" onChange={this.handleRoleChange}/>
-            <button onClick={this.handleClick}>SUBMIT</button>
-            <p> {this.state.star.name} is famous for {this.state.star.role}.</p>
+            <form onSubmit={this.handleClick}>
+                <input value={this.state.star.name} type="text"  placeholder="name" onChange={this.handleChangeFor('name')}/>
+                <input value={this.state.star.role} type="text" placeholder="role" onChange={this.handleChangeFor('role')}/>
+                <input value={this.state.star.famousness} type="number" placeholder="famousness" onChange={this.handleChangeFor('famousness')}/>
+                <input type="submit" value="submit"/>
+            </form>
+            <p> {this.state.star.name} is {this.state.star.famousness} units of famous for {this.state.star.role}.</p>
         </div>    
     );
   }
